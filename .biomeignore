@@ -1,0 +1,2 @@
+# Ignore CSS files as Biome doesn't support Tailwind directives yet
+**/*.css
