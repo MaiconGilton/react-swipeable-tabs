@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #ffffff;
+    --foreground: #09090b;
+    --primary: #4f46e5;
+  }
+
+  .dark {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased transition-colors duration-300;
+  }
+}
+
+/* Custom Utilities for things easier in CSS or shared */
+@layer components {
+  .logo {
+    @apply font-bold text-xl tracking-tighter;
+  }
+
+  .container {
+    @apply max-w-[1200px] mx-auto px-6;
+  }
+}
+
+/* Example specific overrides that rely on internal classes of the library components */
+/* Mobile Mockup Tab List Overrides */
+.mobile-mockup-wrapper .tabs-list {
+  @apply flex relative bg-white/90 backdrop-blur-xl border-t border-black/5;
+  padding-bottom: env(safe-area-inset-bottom, 20px);
+}
+
+.mobile-mockup-wrapper .tab-trigger {
+  @apply flex-1 py-3 px-1 border-none bg-none cursor-pointer flex flex-col items-center justify-center gap-1 text-gray-500 text-[10px] font-medium transition-colors outline-none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mobile-mockup-wrapper .tab-trigger[data-state='active'] {
+  @apply text-[#0070f3];
+}
+
+/* Scrollable Tab Panel constraint */
+.mobile-mockup-wrapper .tab-panel {
+  @apply h-full overflow-y-auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.mobile-mockup-wrapper .tabs-root {
+  @apply flex flex-col w-full h-full;
+}
+
+.mobile-mockup-wrapper .tabs-content {
+  @apply flex-1 overflow-hidden relative;
+}
