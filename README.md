@@ -1,4 +1,4 @@
-# React Responsive Tabs
+# React Swipeable Tabs
 
 A highly performant, accessible, and swipeable tab component for React that mimics native mobile gestures.
 
