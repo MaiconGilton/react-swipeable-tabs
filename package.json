@@ -1,0 +1,19 @@
+{
+  "name": "react-mobile-tabs-monorepo",
+  "private": true,
+  "workspaces": [
+    "react-mobile-tabs",
+    "docs"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=docs",
+    "dev:package": "npm run dev --workspace=react-mobile-tabs",
+    "build": "npm run build --workspaces",
+    "lint": "npx @biomejs/biome lint .",
+    "format": "npx @biomejs/biome format --write .",
+    "check": "npx @biomejs/biome check --write ."
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.3.8"
+  }
+}
