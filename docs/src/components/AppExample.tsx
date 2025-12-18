@@ -126,7 +126,7 @@ const TabsContent = ({ isDesktop }: { isDesktop: boolean }) => (
 const DesktopLayout = () => {
   return (
     <div className="w-full h-full bg-gray-50 dark:bg-[#0a0a0a] overflow-hidden flex flex-col font-sans transition-colors duration-300">
-      <Tabs defaultValue="feed" className="flex flex-col h-full">
+      <Tabs defaultValue="feed" className="flex flex-col h-full" urlMode="hash">
         <div className="bg-white dark:bg-[#111] border-b border-gray-200 dark:border-[#222] px-6 py-3 flex items-center">
           <div className="flex items-center gap-2 mr-10">
             <MobileLogo className="w-8 h-8 text-primary" />
@@ -189,7 +189,11 @@ export const MobileLayout = ({ isMobile }: { isMobile: boolean }) => {
       >
         <div className={'contents'}>
           <div className="h-full bg-white dark:bg-[#111] flex flex-col font-sans select-none">
-            <Tabs defaultValue="feed" className="flex flex-col h-full">
+            <Tabs
+              defaultValue="feed"
+              className="flex flex-col h-full"
+              urlMode="hash"
+            >
               {/* Content Area */}
               <TabsContent isDesktop={false} />
 
@@ -303,14 +307,13 @@ import { MobileLogo } from '../components/Logo';
 
 // --- Content Components ---
 
-const FeedContent = ({ isDesktop = false }: { isDesktop?: boolean }) => (
+const FeedContent = ({ isDesktop }: { isDesktop: boolean }) => (
   <>
     {isDesktop ? (
       <div className="pt-8 pb-6 px-8 max-w-6xl mx-auto">
         <h1 className="font-bold text-4xl tracking-tight text-gray-900 dark:text-white">
           Your Feed
         </h1>
-
         <p className="text-gray-500 dark:text-gray-400 mt-2 text-lg">
           Latest updates from your network.
         </p>
@@ -324,7 +327,7 @@ const FeedContent = ({ isDesktop = false }: { isDesktop?: boolean }) => (
     )}
 
     <div
-      className={\`\flex flex-col gap-4 \${isDesktop ? 'px-8 pb-8 grid grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto items-start' : 'p-4'}\`}
+      className={\`flex flex-col gap-4 \${isDesktop ? 'px-8 pb-8 grid grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto items-start' : 'p-4'}\`}
     >
       {[1, 2, 3, 4, 5].map((i) => (
         <div
@@ -340,7 +343,7 @@ const FeedContent = ({ isDesktop = false }: { isDesktop?: boolean }) => (
   </>
 );
 
-const SearchContent = ({ isDesktop = false }: { isDesktop?: boolean }) => (
+const SearchContent = ({ isDesktop }: { isDesktop: boolean }) => (
   <>
     {isDesktop ? (
       <div className="pt-8 pb-6 px-8 max-w-6xl mx-auto">
@@ -365,7 +368,7 @@ const SearchContent = ({ isDesktop = false }: { isDesktop?: boolean }) => (
   </>
 );
 
-const ProfileContent = ({ isDesktop = false }: { isDesktop?: boolean }) => (
+const ProfileContent = ({ isDesktop }: { isDesktop: boolean }) => (
   <>
     {isDesktop ? (
       <div className="pt-8 pb-6 px-8 max-w-6xl mx-auto">
@@ -402,16 +405,30 @@ const ProfileContent = ({ isDesktop = false }: { isDesktop?: boolean }) => (
   </>
 );
 
+const TabsContent = ({ isDesktop }: { isDesktop: boolean }) => (
+  <Tabs.Content className="flex-1 overflow-hidden bg-gray-200 dark:bg-[#0a0a0a] relative">
+    <Tab.Page value="overview" className="h-full w-full overflow-y-auto">
+      <FeedContent isDesktop={isDesktop} />
+    </Tab.Page>
+
+    <Tab.Page value="overview" className="h-full w-full overflow-y-auto">
+      <SearchContent isDesktop={isDesktop} />
+    </Tab.Page>
+
+    <Tab.Page value="overview" className="h-full w-full overflow-y-auto">
+      <ProfileContent isDesktop={isDesktop} />
+    </Tab.Page>
+  </Tabs.Content>
+);
 // --- Layouts ---
 
 const DesktopLayout = () => {
   return (
     <div className="w-full h-full bg-gray-50 dark:bg-[#0a0a0a] overflow-hidden flex flex-col font-sans transition-colors duration-300">
-      <Tabs defaultValue="feed" className="flex flex-col h-full">
+      <Tabs defaultValue="feed" className="flex flex-col h-full" urlMode="hash">
         <div className="bg-white dark:bg-[#111] border-b border-gray-200 dark:border-[#222] px-6 py-3 flex items-center">
           <div className="flex items-center gap-2 mr-10">
             <MobileLogo className="w-8 h-8 text-primary" />
-
             <span className="font-bold text-xl tracking-tight text-gray-900 dark:text-white">
               App
             </span>
@@ -446,109 +463,93 @@ const DesktopLayout = () => {
         </div>
 
         {/* Content Area */}
-        <Tabs.Content className="flex-1 overflow-hidden bg-gray-50 dark:bg-[#0a0a0a] relative">
-          <Tab.Page
-            value="overview"
-            className="h-full w-full overflow-y-auto p-6"
-          >
-            <FeedContent isDesktop />
-          </Tab.Page>
-
-          <Tab.Page
-            value="overview"
-            className="h-full w-full overflow-y-auto p-6"
-          >
-            <SearchContent isDesktop />
-          </Tab.Page>
-
-          <Tab.Page
-            value="overview"
-            className="h-full w-full overflow-y-auto p-6"
-          >
-            <ProfileContent isDesktop />
-          </Tab.Page>
-        </Tabs.Content>
+        <TabsContent isDesktop />
       </Tabs>
     </div>
   );
 };
 
-const MobileLayout = () => {
+export const MobileLayout = ({ isMobile }: { isMobile: boolean }) => {
   const indicatorRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div className="h-full bg-white dark:bg-[#111] flex flex-col font-sans select-none">
-      <Tabs defaultValue="feed" className="flex flex-col h-full">
-        <Tabs.Content className="flex-1 overflow-hidden relative">
-          <Tab.Page value="feed" className="h-full w-full overflow-y-auto">
-            <FeedContent />
-          </Tab.Page>
+    <div
+      className={\`flex flex-col justify-center items-center bg-gradient-to-b from-gray-50 to-gray-100 dark:from-[#111] dark:to-[#0a0a0a] mobile-mockup-wrapper transition-all duration-500 h-svh \${!isMobile && 'p-4'}\`}
+    >
+      <p
+        className={\`p-8 max-w-[600px] text-center \${isMobile && 'absolute z-20'}\`}
+      >
+        Swipe between tabs or use the bottom navigation to see how React Fluid
+        Tabs handles mobile-style navigation.
+      </p>
 
-          <Tab.Page value="search" className="h-full w-full overflow-y-auto">
-            <SearchContent />
-          </Tab.Page>
+      <div
+        className={\`\relative overflow-hidden shadow-2xl isolate transform-gpu transition-all duration-500 ease-in-out h-full \${!isMobile ? 'border-[10px] border-gray-800 dark:border-[#2a2a2a] rounded-[30px] aspect-[2/4]' : 'w-full'}\`}
+      >
+        <div className={'contents'}>
+          <div className="h-full bg-white dark:bg-[#111] flex flex-col font-sans select-none">
+            <Tabs defaultValue="feed" className="flex flex-col h-full" urlMode="hash">
+              {/* Content Area */}
+              <TabsContent isDesktop={false} />
 
-          <Tab.Page value="profile" className="h-full w-full overflow-y-auto">
-            <ProfileContent />
-          </Tab.Page>
-        </Tabs.Content>
+              <Tabs.Buttons
+                className="flex bg-white dark:bg-[#111] border-t border-gray-100 dark:border-white/10 pb-safe pt-2 px-6 safe-area-bottom h-[85px] relative"
+                showIndicator={false}
+                onTabIndicatorChange={(rect, shouldAnimate) => {
+                  if (indicatorRef.current) {
+                    const indicator = indicatorRef.current;
+                    indicator.style.width = \`\${rect.width}px\`;
+                    indicator.style.transform = \`translateX(\${rect.left}px)\`;
+                    indicator.style.transition = shouldAnimate
+                      ? 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+                      : 'none';
+                  }
+                }}
+              >
+                <div
+                  ref={indicatorRef}
+                  className="absolute top-3 -left-0 h-[calc(100%-25px)] bg-primary/10 dark:bg-primary/20 rounded-2xl -z-0 pointer-events-none transition-all"
+                />
 
-        <Tabs.Buttons
-          className="flex bg-white dark:bg-[#111] border-t border-gray-100 dark:border-white/10 pb-safe pt-2 px-6 safe-area-bottom h-[85px] relative"
-          showIndicator={false}
-          onTabIndicatorChange={(rect, shouldAnimate) => {
-            if (indicatorRef.current) {
-              const indicator = indicatorRef.current;
-              indicator.style.width = \`\${rect.width}px\`;
-              indicator.style.transform = \`\translateX(\${rect.left}px)\`;
-              indicator.style.transition = shouldAnimate
-                ? 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
-                : 'none';
-            }
-          }}
-        >
-          <div
-            ref={indicatorRef}
-            className="absolute top-3 -left-0 h-[calc(100%-25px)] bg-primary/10 dark:bg-primary/20 rounded-2xl -z-0 pointer-events-none transition-all"
-          />
-
-          {[
-            { value: 'feed', label: 'Feed', Icon: Home },
-            { value: 'search', label: 'Search', Icon: Search },
-            { value: 'profile', label: 'Profile', Icon: User },
-          ].map(({ value, label, Icon }) => (
-            <Tab.Button
-              key={value}
-              value={value}
-              className="flex-1 flex flex-col items-center justify-center gap-1 py-3 cursor-pointer select-none active:scale-95 transition-transform outline-none z-10"
-            >
-              {({ isActive }) => (
-                <>
-                  <Icon
-                    size={24}
-                    strokeWidth={isActive ? 2.5 : 2}
-                    className={\`transition-colors duration-300 \${
-                      isActive
-                        ? 'text-primary'
-                        : 'text-gray-400 dark:text-gray-500'
-                    }\`}
-                  />
-
-                  <span
-                    className={\`text-[10px] font-medium transition-colors duration-300 \${
-                      isActive
-                        ? 'text-primary'
-                        : 'text-gray-400 dark:text-gray-500'
-                    }\`}
+                {[
+                  { value: 'feed', label: 'Feed', Icon: Home },
+                  { value: 'search', label: 'Search', Icon: Search },
+                  { value: 'profile', label: 'Profile', Icon: User },
+                ].map(({ value, label, Icon }) => (
+                  <Tab.Button
+                    key={value}
+                    value={value}
+                    className="flex-1 flex flex-col items-center justify-center gap-1 py-3 cursor-pointer select-none active:scale-95 transition-transform outline-none z-10"
                   >
-                    {label}
-                  </span>
-                </>
-              )}
-            </Tab.Button>
-          ))}
-        </Tabs.Buttons>
-      </Tabs>
+                    {({ isActive }) => (
+                      <>
+                        <Icon
+                          size={24}
+                          strokeWidth={isActive ? 2.5 : 2}
+                          className={\`\transition-colors duration-300 \${
+                            isActive
+                              ? 'text-primary'
+                              : 'text-gray-400 dark:text-gray-500'
+                          }\`}
+                        />
+                        <span
+                          className={\`text-[10px] font-medium transition-colors duration-300 \${
+                            isActive
+                              ? 'text-primary'
+                              : 'text-gray-400 dark:text-gray-500'
+                          }\`}
+                        >
+                          {label}
+                        </span>
+                      </>
+                    )}
+                  </Tab.Button>
+                ))}
+              </Tabs.Buttons>
+            </Tabs>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };`;
