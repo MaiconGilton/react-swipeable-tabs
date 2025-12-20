@@ -20,11 +20,13 @@
       "a11y": {
         "useKeyWithClickEvents": "off",
         "noLabelWithoutControl": "off",
-        "noStaticElementInteractions": "off"
+        "noStaticElementInteractions": "off",
+        "noSvgWithoutTitle": "off"
       },
       "suspicious": {
         "noArrayIndexKey": "off",
-        "useIterableCallbackReturn": "warn"
+        "useIterableCallbackReturn": "warn",
+        "noUnknownAtRules": "off"
       }
     }
   },
@@ -36,7 +38,8 @@
   },
   "css": {
     "parser": {
-      "cssModules": true
+      "cssModules": false,
+      "tailwindDirectives": true
     }
   },
   "assist": {
