@@ -209,7 +209,10 @@ export const MobileLayout = () => {
               <Tabs.Buttons
                 className="flex bg-white dark:bg-[#111] border-t border-gray-100 dark:border-white/10 pb-safe pt-2 px-6 safe-area-bottom h-[85px] relative"
                 showIndicator={false}
-                onTabIndicatorChange={(rect, shouldAnimate) => {
+                onTabIndicatorChange={(
+                  rect: { left: number; width: number },
+                  shouldAnimate?: boolean,
+                ) => {
                   if (indicatorRef.current) {
                     const indicator = indicatorRef.current
                     indicator.style.width = `${rect.width}px`
