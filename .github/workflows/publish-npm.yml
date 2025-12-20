@@ -2,8 +2,10 @@ name: Publish npm package
 
 on:
   push:
-    tags:
-      - 'v*.*.*'
+    branches:
+      - main
+    paths:
+      - 'react-fluid-tabs/**'
 
 jobs:
   publish:
@@ -15,13 +17,31 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: actions/setup-node@v4
         with:
           node-version: 18
           registry-url: https://registry.npmjs.org/
 
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
       - run: npm ci
+
+      - name: Generate Changelog
+        run: npx standard-version
+        continue-on-error: true
+
+      - name: Commit and Push Changes
+        run: |
+          git push --follow-tags origin main
+        continue-on-error: true
+
       - run: npm run build
 
       - run: npm publish
