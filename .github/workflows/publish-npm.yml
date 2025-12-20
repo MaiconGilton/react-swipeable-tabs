@@ -31,6 +31,14 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
+      - name: Install root dependencies
+        run: npm ci
+        working-directory: .
+
+      - name: Lint
+        run: npm run lint
+        working-directory: .
+
       - run: npm ci
 
       - name: Generate Changelog
