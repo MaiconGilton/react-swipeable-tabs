@@ -1,6 +1,6 @@
 # Release Process
 
-This project uses [standard-version](https://github.com/conventional-changelog/standard-version) to automate versioning and CHANGELOG generation.
+This project uses [standard-version](https://github.com/conventional-changelog/standard-version) to automate versioning and CHANGELOG generation via GitHub Actions.
 
 ## Prerequisites
 
@@ -9,40 +9,50 @@ This project uses [standard-version](https://github.com/conventional-changelog/s
   - **Types**: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `chore`
   - **Example**: `feat(tabs): add URL-driven navigation support`
 
-## Release Commands
+## Automated Release Process
+
+Both the package and documentation site have **fully automated** changelog generation and publishing via GitHub Actions.
 
 ### React-Fluid-Tabs Package
 
-```bash
-# Automatic version bump based on commits
-npm run release
+**Trigger:** Push changes to `react-fluid-tabs/` folder on `main` branch
 
-# Specific version bumps
-npm run release:patch  # 0.0.8 → 0.0.9
-npm run release:minor  # 0.0.8 → 0.1.0
-npm run release:major  # 0.0.8 → 1.0.0
-
-# First release (doesn't bump version)
-npm run release:first
-```
+**What happens automatically:**
+1. GitHub Actions runs `standard-version` to:
+   - Analyze commits since last release
+   - Bump version in `react-fluid-tabs/package.json`
+   - Generate changelog entries in `react-fluid-tabs/CHANGELOG.md`
+   - Create git commit and tag
+2. Builds the package
+3. Publishes to npm registry
+4. Pushes changelog updates back to repository
 
 ### Documentation Site
 
-The documentation site changelog is **automatically generated** by GitHub Actions when you push changes to the `docs/` folder on the `main` branch.
+**Trigger:** Push changes to `docs/` folder on `main` branch
 
-**How it works:**
-1. Push changes to `docs/` folder
-2. GitHub Actions runs `standard-version` to update `docs/CHANGELOG.md` and `docs/package.json`
-3. Changes are committed and pushed automatically
-4. Docs are built and deployed to GitHub Pages
+**What happens automatically:**
+1. GitHub Actions runs `standard-version` to update `docs/CHANGELOG.md` and `docs/package.json`
+2. Changes are committed and pushed automatically
+3. Docs are built and deployed to GitHub Pages
 
-## What Happens During Release
+## How to Release
 
-1. Bumps version in `react-fluid-tabs/package.json`
-2. Updates `react-fluid-tabs/CHANGELOG.md` with commits since last release
-3. Creates a git commit with the changes
-4. Creates a git tag (e.g., `v0.0.9`)
-5. Pushes commits and tags to `origin main`
+Simply push your changes to the appropriate folder on the `main` branch:
+
+```bash
+# For package changes
+git add react-fluid-tabs/
+git commit -m "feat(tabs): add new feature"
+git push origin main
+
+# For docs changes
+git add docs/
+git commit -m "docs: update API reference"
+git push origin main
+```
+
+GitHub Actions will automatically handle versioning, changelog generation, and publishing.
 
 ## Commit Message Examples
 

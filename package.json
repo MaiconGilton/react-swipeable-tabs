@@ -11,9 +11,7 @@
     "build": "npm run build --workspaces",
     "lint": "npx @biomejs/biome lint .",
     "format": "npx @biomejs/biome format --write .",
-    "check": "npx @biomejs/biome check --write .",
-    "release": "standard-version && git push --follow-tags origin main",
-    "release:first": "npm run release -- --first-release"
+    "check": "npx @biomejs/biome check --write ."
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.8",
