@@ -28,12 +28,13 @@ npm run release:first
 
 ### Documentation Site
 
-```bash
-# Auto-detect version bump based on commits
-npm run release:docs
-```
+The documentation site changelog is **automatically generated** by GitHub Actions when you push changes to the `docs/` folder on the `main` branch.
 
-> **Note**: The docs release command only updates the version and changelog locally. It doesn't push to git since docs versions are typically released alongside package versions.
+**How it works:**
+1. Push changes to `docs/` folder
+2. GitHub Actions runs `standard-version` to update `docs/CHANGELOG.md` and `docs/package.json`
+3. Changes are committed and pushed automatically
+4. Docs are built and deployed to GitHub Pages
 
 ## What Happens During Release
 
